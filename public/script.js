@@ -1,0 +1,1 @@
+console.log("Bem-vindo ao Código da Terra");
