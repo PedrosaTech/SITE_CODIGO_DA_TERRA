@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Área do Assinante - Código da Terra</title>
+  <link rel="stylesheet" href="../style.css"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Bem-vindo(a) ao Código da Terra</h1>
+
+    <section>
+      <h2>Login</h2>
+      <input type="email" id="login-email" placeholder="Email"><br>
+      <input type="password" id="login-senha" placeholder="Senha"><br>
+      <button onclick="login()">Entrar</button>
+    </section>
+
+    <section>
+      <h2>Cadastro</h2>
+      <input type="text" id="cad-nome" placeholder="Nome completo"><br>
+      <input type="email" id="cad-email" placeholder="Email"><br>
+      <input type="password" id="cad-senha" placeholder="Senha"><br>
+      <input type="password" id="cad-senha-confirma" placeholder="Confirmar senha"><br>
+      <button onclick="cadastrar()">Cadastrar</button>
+    </section>
+
+    <p id="mensagem"></p>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="../firebase-config.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>
