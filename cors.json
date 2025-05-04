@@ -1,0 +1,13 @@
+[
+    {
+      "origin": [
+        "http://localhost:3000",
+        "http://localhost:8080",
+        "https://www.codigodaterra.com.br"
+      ],
+      "method": ["GET", "POST", "PUT", "DELETE"],
+      "responseHeader": ["Content-Type"],
+      "maxAgeSeconds": 3600
+    }
+  ]
+  
