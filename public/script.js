@@ -1,38 +1,48 @@
-function login() {
-  const email = document.getElementById('login-email').value;
-  const senha = document.getElementById('login-senha').value;
 
+function login() {
+  const email = document.getElementById("login-email").value;
+  const senha = document.getElementById("login-senha").value;
   firebase.auth().signInWithEmailAndPassword(email, senha)
-    .then(() => window.location.href = 'painel.html')
-    .catch(err => alert("Erro ao entrar: " + err.message));
+    .then(() => {
+      window.location.href = "assinante/painel.html";
+    })
+    .catch(error => {
+      alert("Erro ao entrar: " + error.message);
+    });
 }
 
 function cadastrar() {
-  const nome = document.getElementById('cad-nome').value;
-  const email = document.getElementById('cad-email').value;
-  const senha = document.getElementById('cad-senha').value;
-  const senha2 = document.getElementById('cad-senha-confirma').value;
+  const nome = document.getElementById("cad-nome").value;
+  const email = document.getElementById("cad-email").value;
+  const telefone = document.getElementById("cad-telefone").value;
+  const senha = document.getElementById("cad-senha").value;
+  const senhaConfirm = document.getElementById("cad-senha-confirm").value;
+  const plano = document.getElementById("cad-plano").value;
 
-  if (senha !== senha2) {
-    alert("Senhas não coincidem.");
+  if (senha !== senhaConfirm) {
+    alert("As senhas não coincidem.");
     return;
   }
 
   firebase.auth().createUserWithEmailAndPassword(email, senha)
-    .then(userCred => {
-      const uid = userCred.user.uid;
-      firebase.database().ref('assinantes/' + uid).set({
-        nome: nome,
-        email: email,
-        status: 'pendente'
+    .then(cred => {
+      return firebase.database().ref("assinantes/" + cred.user.uid).set({
+        nome,
+        email,
+        telefone,
+        plano,
+        status: "pendente"
       });
-      alert("Cadastro realizado. Aguarde aprovação.");
     })
-    .catch(err => alert("Erro ao cadastrar: " + err.message));
-}
-
-function logout() {
-  firebase.auth().signOut().then(() => {
-    window.location.href = "index.html";
-  });
+    .then(() => {
+      alert("Cadastro enviado! Aguarde aprovação.");
+      document.getElementById("cad-nome").value = "";
+      document.getElementById("cad-email").value = "";
+      document.getElementById("cad-telefone").value = "";
+      document.getElementById("cad-senha").value = "";
+      document.getElementById("cad-senha-confirm").value = "";
+    })
+    .catch(error => {
+      alert("Erro ao cadastrar: " + error.message);
+    });
 }

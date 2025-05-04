@@ -3,62 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Código da Terra</title>
+  <title>Login - Código da Terra</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1 class="logo">🌱 Código da Terra</h1>
-      <nav>
-        <a href="#sobre">Sobre</a>
-        <a href="#como-funciona">Como Funciona</a>
-        <a href="#planos">Planos</a>
-        <a href="#contato">Contato</a>
-        <a href="assinante/index.html" class="btn">Área do Assinante</a>
-        <a href="admin/index.html" class="btn btn-admin">Admin</a>
-      </nav>
-    </div>
-  </header>
+  <div class="container">
+    <h1>Código da Terra - Login e Cadastro</h1>
 
-  <section class="hero">
-    <div class="container">
-      <h2>Natureza, Espiritualidade e Tecnologia em Harmonia</h2>
-      <p>Conecte-se com a terra, alimente-se com consciência e participe de uma rede viva de regeneração.</p>
-    </div>
-  </section>
-
-  <main class="container">
-    <section id="sobre">
-      <h2>Sobre o Projeto</h2>
-      <p>Código da Terra une o cultivo orgânico, sensores inteligentes, espiritualidade e economia circular. Receba alimentos com alma e participe de uma nova forma de viver.</p>
+    <section class="bloco">
+      <h2>Entrar</h2>
+      <input type="email" id="login-email" placeholder="Email" /><br />
+      <input type="password" id="login-senha" placeholder="Senha" /><br />
+      <button onclick="login()">Entrar</button>
     </section>
 
-    <section id="como-funciona">
-      <h2>Como Funciona</h2>
-      <p>Assine um plano, acompanhe a sua horta e receba colheitas mensais. Nosso painel usa sensores para cuidar do solo, da luz e da água.</p>
+    <section class="bloco">
+      <h2>Cadastrar</h2>
+      <input type="text" id="cad-nome" placeholder="Nome completo" /><br />
+      <input type="email" id="cad-email" placeholder="Email" /><br />
+      <input type="tel" id="cad-telefone" placeholder="Telefone" /><br />
+      <input type="password" id="cad-senha" placeholder="Senha" /><br />
+      <input type="password" id="cad-senha-confirm" placeholder="Confirmar senha" /><br />
+      <select id="cad-plano">
+        <option value="colheita_viva">Colheita Viva</option>
+        <option value="colheita_compartilhada">Colheita Compartilhada</option>
+        <option value="colheita_comunidade">Colheita Comunidade</option>
+      </select><br />
+      <button onclick="cadastrar()">Cadastrar</button>
     </section>
 
-    <section id="planos">
-      <h2>Planos de Assinatura</h2>
-      <ul>
-        <li><strong>Colheita Viva:</strong> ideal para quem quer alimentos frescos mensais.</li>
-        <li><strong>Colheita Compartilhada:</strong> compartilhe e troque com a rede.</li>
-        <li><strong>Colheita Comunidade:</strong> participe ativamente da produção.</li>
-      </ul>
-    </section>
+    <p id="mensagem"></p>
+  </div>
 
-    <section id="contato">
-      <h2>Contato</h2>
-      <p>📧 contato@codigodaterra.com.br | 📱 WhatsApp: (71) 98357-8578</p>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Código da Terra. Todos os direitos reservados.</p>
-    </div>
-    <a href="https://wa.me/5571983578578" class="whatsapp-float" target="_blank">💬</a>
-  </footer>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
