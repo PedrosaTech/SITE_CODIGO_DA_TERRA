@@ -1,31 +1,48 @@
-firebase.auth().onAuthStateChanged(user => {
-  if (!user) {
-    window.location.href = "index.html";
+
+function login() {
+  const email = document.getElementById("login-email").value;
+  const senha = document.getElementById("login-senha").value;
+  firebase.auth().signInWithEmailAndPassword(email, senha)
+    .then(() => {
+      window.location.href = "assinante/painel.html";
+    })
+    .catch(error => {
+      alert("Erro ao entrar: " + error.message);
+    });
+}
+
+function cadastrar() {
+  const nome = document.getElementById("cad-nome").value;
+  const email = document.getElementById("cad-email").value;
+  const telefone = document.getElementById("cad-telefone").value;
+  const senha = document.getElementById("cad-senha").value;
+  const senhaConfirm = document.getElementById("cad-senha-confirm").value;
+  const plano = document.getElementById("cad-plano").value;
+
+  if (senha !== senhaConfirm) {
+    alert("As senhas não coincidem.");
     return;
   }
-  const uid = user.uid;
-  firebase.database().ref("assinantes/" + uid).once("value").then(snapshot => {
-    const data = snapshot.val();
-    if (!data || data.status !== "ativo") {
-      alert("Cadastro não aprovado ainda.");
-      firebase.auth().signOut().then(() => window.location.href = "index.html");
-      return;
-    }
-    document.getElementById("nome").innerText = data.nome || "";
-    document.getElementById("plano").innerText = data.plano || "";
-    document.getElementById("plantio").innerText = data.plantio || "";
-    document.getElementById("oqueplantou").innerText = data.oqueplantou || "";
-    document.getElementById("estimativa").innerText = data.estimativa_colheita || "";
-    document.getElementById("temp").innerText = data.temperatura || "--";
-    document.getElementById("luz").innerText = data.luminosidade || "--";
-    document.getElementById("umidade").innerText = data.umidade || "--";
-    document.getElementById("adubo").innerText = data.adubacao || "--";
-    document.getElementById("limpeza").innerText = data.limpeza || "--";
-    if (data.foto1) document.getElementById("foto1").src = data.foto1;
-    if (data.foto2) document.getElementById("foto2").src = data.foto2;
-  });
-});
 
-function logout() {
-  firebase.auth().signOut().then(() => window.location.href = "index.html");
+  firebase.auth().createUserWithEmailAndPassword(email, senha)
+    .then(cred => {
+      return firebase.database().ref("assinantes/" + cred.user.uid).set({
+        nome,
+        email,
+        telefone,
+        plano,
+        status: "pendente"
+      });
+    })
+    .then(() => {
+      alert("Cadastro enviado! Aguarde aprovação.");
+      document.getElementById("cad-nome").value = "";
+      document.getElementById("cad-email").value = "";
+      document.getElementById("cad-telefone").value = "";
+      document.getElementById("cad-senha").value = "";
+      document.getElementById("cad-senha-confirm").value = "";
+    })
+    .catch(error => {
+      alert("Erro ao cadastrar: " + error.message);
+    });
 }
