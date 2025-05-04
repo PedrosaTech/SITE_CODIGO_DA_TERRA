@@ -1,2 +1,20 @@
 <!DOCTYPE html>
-<html><head><title>Admin</title></head><body><h2>Painel Admin</h2></body></html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel Admin</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Painel Administrativo da Horta</h1>
+    <div id="lista-assinantes">Carregando assinantes...</div>
+  </div>
+  <script src="../firebase-config.js"></script>
+  <script src="painel.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</body>
+</html>
