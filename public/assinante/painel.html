@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel do Assinante</title>
-  <link rel="stylesheet" href="../style.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Seja bem-vindo ao seu painel</h1>
-    <div id="dados-assinante">Carregando...</div>
+    <h1>Bem-vindo à sua Horta</h1>
+    <div id="dados-assinante" class="card">
+      <h2>Seus Dados</h2>
+      <p><strong>Nome:</strong> <span id="nome"></span></p>
+      <p><strong>Plano:</strong> <span id="plano"></span></p>
+      <p><strong>Dia do Plantio:</strong> <span id="plantio"></span></p>
+      <p><strong>O que foi plantado:</strong> <span id="oqueplantou"></span></p>
+      <p><strong>Estimativa de Colheita:</strong> <span id="estimativa"></span></p>
+    </div>
+    <div class="card">
+      <h2>Monitoramento</h2>
+      <p><strong>Temperatura:</strong> <span id="temp"></span> °C</p>
+      <p><strong>Luminosidade:</strong> <span id="luz"></span> lux</p>
+      <p><strong>Umidade:</strong> <span id="umidade"></span> %</p>
+      <p><strong>Adubação:</strong> <span id="adubo"></span></p>
+      <p><strong>Limpeza do Solo:</strong> <span id="limpeza"></span></p>
+    </div>
+    <div class="card">
+      <h2>Fotos da sua Horta</h2>
+      <img id="foto1" style="max-width:45%;border-radius:8px;margin-right:2%" />
+      <img id="foto2" style="max-width:45%;border-radius:8px;" />
+    </div>
     <button onclick="logout()">Sair</button>
   </div>
-
+  <script src="../firebase-config.js"></script>
+  <script src="script.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-  <script src="../firebase-config.js"></script>
-  <script src="../script.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
 </body>
 </html>
