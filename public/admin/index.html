@@ -3,27 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin - Login</title>
+  <title>Admin - Código da Terra</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container login-container">
-    <h1>Área Administrativa</h1>
-    <input type="email" id="email" placeholder="Email" /><br />
-    <input type="password" id="senha" placeholder="Senha" /><br />
+  <div class="container">
+    <h1>Login Administrativo</h1>
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="password" id="senha" placeholder="Senha"><br>
     <button onclick="login()">Entrar</button>
+    <p id="mensagem"></p>
   </div>
-  <script src="../firebase-config.js"></script>
-  <script>
-    function login() {
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-      firebase.auth().signInWithEmailAndPassword(email, senha)
-        .then(user => window.location.href = 'painel.html')
-        .catch(err => alert('Erro ao entrar: ' + err.message));
-    }
-  </script>
+
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="admin-script.js"></script>
 </body>
 </html>
