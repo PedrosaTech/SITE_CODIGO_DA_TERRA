@@ -4,7 +4,7 @@ function login() {
   const senha = document.getElementById("login-senha").value;
   firebase.auth().signInWithEmailAndPassword(email, senha)
     .then(() => {
-      window.location.href = "/assinante/painel.html";
+      window.location.href = "/assinante/painel-assinante.html";
     })
     .catch(error => {
       alert("Erro ao entrar: " + error.message);
