@@ -2,101 +2,295 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Código da Terra: Hortas orgânicas com sensores inteligentes para uma agricultura sustentável e consciente." />
+  <meta name="keywords" content="horta orgânica, sensores IoT, agricultura sustentável, comunidade, espiritualidade" />
   <title>Código da Terra</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --primary-green: #2e7d32;
+      --secondary-green: #4caf50;
+      --earth-brown: #6d4c41;
+      --cream: #f5f5f5;
+      --dark-gray: #333333;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--cream);
+      color: var(--dark-gray);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Lora', serif;
+      color: var(--primary-green);
+    }
+
+    .hero {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+      padding: 100px 20px;
+      color: white;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero > * {
+      position: relative;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn {
+      background-color: var(--secondary-green);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-green);
+      transform: translateY(-2px);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--secondary-green);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      background-color: var(--primary-green);
+      color: white;
+      padding: 10px;
+      border-radius: 50%;
+      text-decoration: none;
+      display: none;
+      transition: opacity 0.3s;
+    }
+
+    .back-to-top.show {
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--primary-green);
+        position: absolute;
+        top: 60px;
+        left: 0;
+      }
+      nav.active {
+        display: flex;
+      }
+      nav a {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1 class="logo">🌱 Código da Terra</h1>
-      <nav>
-        <a href="#sobre">Sobre</a>
-        <a href="#como-funciona">Como Funciona</a>
-        <a href="#planos">Planos</a>
-        <a href="#contato">Contato</a>
+  <header class="bg-green-800 text-white py-4 sticky top-0 z-10 shadow-md">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">🌱 Código da Terra</h1>
+      <nav class="hidden md:flex space-x-4">
+        <a href="#sobre" class="hover:text-blue-400">Sobre</a>
+        <a href="#como-funciona" class="hover:text-blue-400">Como Funciona</a>
+        <a href="#planos" class="hover:text-blue-400">Planos</a>
+        <a href="#contato" class="hover:text-blue-400">Contato</a>
         <a href="assinante/index.html" class="btn">Área do Assinante</a>
-        <a href="admin/index.html" class="btn btn-admin">Admin</a>
+        <a href="admin/index.html" class="btn bg-blue-600 hover:bg-blue-700">Admin</a>
       </nav>
+      <button class="hamburger md:hidden text-2xl" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
+    <nav id="mobile-menu" class="hidden md:hidden bg-green-800 text-white px-4 py-2">
+      <a href="#sobre" class="block py-2 hover:text-blue-400">Sobre</a>
+      <a href="#como-funciona" class="block py-2 hover:text-blue-400">Como Funciona</a>
+      <a href="#planos" class="block py-2 hover:text-blue-400">Planos</a>
+      <a href="#contato" class="block py-2 hover:text-blue-400">Contato</a>
+      <a href="assinante/index.html" class="block py-2 btn">Área do Assinante</a>
+      <a href="admin/index.html" class="block py-2 btn bg-blue-600 hover:bg-blue-700">Admin</a>
+    </nav>
   </header>
 
   <section class="hero bg-cover bg-center text-white py-20" style="background-image: url('static/images/bg-natureza.jpg');">
     <div class="container mx-auto text-center fade-in">
       <h1 class="text-4xl md:text-5xl font-bold">Bem-vindo ao Código da Terra</h1>
       <p class="text-lg md:text-xl mt-4 max-w-xl mx-auto">Unimos a inteligência da natureza com a tecnologia para cultivar alimentos, conexões e um futuro regenerativo.</p>
-      <a href="#sobre" class="mt-6 inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold transition">Descubra como funciona</a>
+      <a href="#sobre" class="btn">Descubra como funciona</a>
     </div>
   </section>
-  
 
-  <main class="container">
+  <main class="container mx-auto px-4">
     <section id="sobre" class="py-16 bg-white">
-      <div class="container mx-auto flex flex-col md:flex-row items-center gap-8">
+      <div class="flex flex-col md:flex-row items-center gap-8">
         <div class="md:w-1/2">
-          <img src="static/images/horta-organica.jpg" alt="Horta conectada" class="rounded shadow-md" />
+          <img src="static/images/horta-organica.jpg" alt="Horta orgânica com sensores inteligentes" class="rounded shadow-md w-full" />
         </div>
         <div class="md:w-1/2 fade-in">
-          <h2 class="text-3xl font-bold text-green-800 mb-4">O que é o Código da Terra?</h2>
+          <h2 class="text-3xl font-bold mb-4">O que é o Código da Terra?</h2>
           <p class="text-lg text-gray-700 mb-4">Somos uma rede que integra hortas orgânicas, sensores inteligentes e consciência espiritual para transformar o jeito como nos relacionamos com a terra e com a alimentação.</p>
           <p class="text-lg text-gray-700">Com planos de assinatura, vivências e economia do escambo, criamos um ecossistema onde todos colhem juntos: saúde, abundância e conexão.</p>
         </div>
       </div>
     </section>
-    
 
-    <section id="tecnologia" class="py-16 bg-gray-100">
-      <div class="container mx-auto flex flex-col md:flex-row-reverse items-center gap-8">
+    <section id="como-funciona" class="py-16 bg-gray-100">
+      <div class="flex flex-col md:flex-row-reverse items-center gap-8">
         <div class="md:w-1/2">
-          <img src="static/images/iot-horta.jpg" alt="Painel IoT em ação" class="rounded shadow-md" />
+          <img src="static/images/iot-horta.jpg" alt="Painel IoT em ação" class="rounded shadow-md w-full" />
         </div>
         <div class="md:w-1/2 fade-in">
-          <h2 class="text-3xl font-bold text-green-800 mb-4">Tecnologia Viva</h2>
+          <h2 class="text-3xl font-bold mb-4">Tecnologia Viva</h2>
           <p class="text-lg text-gray-700 mb-4">Sensores instalados na terra acompanham temperatura, umidade e luminosidade em tempo real. Com isso, sabemos a hora certa de regar, adubar ou colher — respeitando o ritmo da natureza.</p>
           <p class="text-lg text-gray-700">Tudo isso é visualizado em um painel digital intuitivo, acessível por quem planta, quem consome e quem apoia.</p>
         </div>
       </div>
     </section>
-    
 
-    <section id="assinatura" class="py-16 bg-white">
-      <div class="container mx-auto flex flex-col md:flex-row items-center gap-8">
-        <div class="md:w-1/2">
-          <img src="static/images/colheita-fresca.jpg" alt="Cesta da colheita" class="rounded shadow-md" />
+    <section id="planos" class="py-16 bg-white">
+      <h2 class="text-3xl font-bold text-center mb-8">Planos de Assinatura</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-md text-center fade-in">
+          <h3 class="text-2xl font-bold mb-4">Colheita Viva</h3>
+          <p class="text-lg text-gray-700 mb-4">Alimentos frescos mensais</p>
+          <a href="assinante/index.html" class="btn">Assinar</a>
         </div>
-        <div class="md:w-1/2 fade-in">
-          <h2 class="text-3xl font-bold text-green-800 mb-4">Assinatura da Colheita</h2>
-          <p class="text-lg text-gray-700 mb-4">Você escolhe um plano e recebe em casa alimentos orgânicos, colhidos com cuidado e amor, no tempo certo. Cada assinatura fortalece pequenos produtores e iniciativas regenerativas.</p>
-          <p class="text-lg text-gray-700">É mais que comida. É uma nova relação com o tempo, o ciclo da vida e o que colocamos à mesa.</p>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center fade-in">
+          <h3 class="text-2xl font-bold mb-4">Colheita Compartilhada</h3>
+          <p class="text-lg text-gray-700 mb-4">Compartilhe e troque com a rede</p>
+          <a href="assinante/index.html" class="btn">Assinar</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-md text-center fade-in">
+          <h3 class="text-2xl font-bold mb-4">Colheita Comunidade</h3>
+          <p class="text-lg text-gray-700 mb-4">Participe ativamente da produção</p>
+          <a href="assinante/index.html" class="btn">Assinar</a>
         </div>
       </div>
     </section>
-    
-    <section id="eventos" class="py-16 bg-gray-100">
-      <div class="container mx-auto flex flex-col md:flex-row-reverse items-center gap-8">
-        <div class="md:w-1/2">
-          <img src="static/images/vivencia-grupo.jpg" alt="Vivência espiritual" class="rounded shadow-md" />
-        </div>
-        <div class="md:w-1/2 fade-in">
-          <h2 class="text-3xl font-bold text-green-800 mb-4">Vivências e Conexões</h2>
-          <p class="text-lg text-gray-700 mb-4">Do contato com a terra às práticas de meditação, nossos eventos reúnem pessoas em busca de propósito, equilíbrio e conexão com a natureza viva dentro e fora de si.</p>
-          <p class="text-lg text-gray-700">Oficinas, círculos de cura, constelações, Reiki coletivo e muito mais. O Código da Terra pulsa em comunidade.</p>
-        </div>
-      </div>
-    </section>
-    
 
-    <section id="contato">
-      <h2>Contato</h2>
-      <p>📧 contato@codigodaterra.com.br | 📱 WhatsApp: (71) 98357-8578</p>
+    <section id="contato" class="py-16 bg-gray-100">
+      <h2 class="text-3xl font-bold text-center mb-8">Contato</h2>
+      <form class="max-w-lg mx-auto fade-in">
+        <input type="text" placeholder="Nome" class="w-full p-3 mb-4 rounded border border-gray-300" required aria-required="true" />
+        <input type="email" placeholder="Email" class="w-full p-3 mb-4 rounded border border-gray-300" required aria-required="true" />
+        <textarea placeholder="Mensagem" class="w-full p-3 mb-4 rounded border border-gray-300" rows="5" required aria-required="true"></textarea>
+        <button type="submit" class="btn block mx-auto">Enviar</button>
+      </form>
+      <p class="text-center mt-6 text-gray-700">📧 contato@codigodaterra.com.br | 📱 WhatsApp: (71) 98357-8578</p>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Código da Terra. Todos os direitos reservados.</p>
-    </div>
-    <a href="https://wa.me/5571983578578" class="whatsapp-float" target="_blank">💬</a>
+  <footer class="bg-green-800 text-white py-4 text-center">
+    <p>© 2025 Código da Terra. Todos os direitos reservados.</p>
+    <a href="https://wa.me/5571983578578" class="whatsapp-float" target="_blank" aria-label="Contato via WhatsApp">💬</a>
+    <a href="#" class="back-to-top">↑</a>
   </footer>
+
+  <script>
+    // Toggle mobile menu
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.querySelector('#mobile-menu');
+    hamburger.addEventListener('click', () => {
+      nav.classList.toggle('hidden');
+    });
+
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Fade-in animation
+    const sections = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+
+    // Back to top button
+    window.onscroll = function() {
+      const backToTop = document.querySelector('.back-to-top');
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    };
+  </script>
 </body>
 </html>
