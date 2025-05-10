@@ -5,176 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel do Assinante</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="[invalid url, do not cite]
 </head>
 <body>
   <div class="container">
     <h1>Bem-vindo ao Código da Terra</h1>
     <div id="info-assinante">Carregando dados...</div>
-    <h2>Adicionar Dados do Sensor</h2>
-    <form id="sensorForm">
-      <label for="data">Data e Hora:</label>
-      <input type="datetime-local" id="data" name="data" required aria-required="true">
-      <label for="umidade">Umidade (%):</label>
-      <input type="number" id="umidade" name="umidade" min="0" max="100" step="0.1" required aria-required="true">
-      <label for="temperatura">Temperatura (°C):</label>
-      <input type="number" id="temperatura" name="temperatura" min="-10" max="50" step="0.1" required aria-required="true">
-      <label for="luz">Luz (lux):</label>
-      <input type="number" id="luz" name="luz" min="0" max="100000" step="1" required aria-required="true">
-      <button type="submit">Adicionar</button>
-    </form>
-    <h2>Dados dos Sensores</h2>
-    <div id="umidadeChartDiv" style="display: none;">
-      <canvas id="umidadeChart"></canvas>
-    </div>
-    <div id="temperaturaChartDiv" style="display: none;">
-      <canvas id="temperaturaChart"></canvas>
-    </div>
-    <div id="luzChartDiv" style="display: none;">
-      <canvas id="luzChart"></canvas>
-    </div>
     <button onclick="logout()" style="margin-top: 20px;">Sair</button>
   </div>
 
-  <script src="[invalid url, do not cite]
-  <script src="[invalid url, do not cite]
-  <script src="[invalid url, do not cite]
-  <script src="[invalid url, do not cite]
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
   <script src="firebase-config.js"></script>
-  <script>
-    // Assume Firebase is initialized in firebase-config.js
-
-    // Get current user
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-      // Fetch sensor data
-      const sensorRef = firebase.database().ref(`users/${user.uid}/sensorData`);
-      sensorRef.on('value', (snapshot) => {
-        const dataObj = snapshot.val();
-        if (dataObj) {
-          const dataArray = Object.entries(dataObj).map(([key, val]) => ({ id: key, ...val }));
-          dataArray.sort((a, b) => new Date(a.data) - new Date(b.data));
-          const labels = dataArray.map(d => d.data);
-          const umidade = dataArray.map(d => d.umidade);
-          const temperatura = dataArray.map(d => d.temperatura);
-          const luz = dataArray.map(d => d.luz);
-
-          // Show chart divs
-          document.getElementById('umidadeChartDiv').style.display = 'block';
-          document.getElementById('temperaturaChartDiv').style.display = 'block';
-          document.getElementById('luzChartDiv').style.display = 'block';
-
-          // Create or update charts
-          if (window.umidadeChart) {
-            window.umidadeChart.data.labels = labels;
-            window.umidadeChart.data.datasets[0].data = umidade;
-            window.umidadeChart.update();
-          } else {
-            window.umidadeChart = new Chart(document.getElementById('umidadeChart').getContext('2d'), {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: [{
-                  label: 'Umidade (%)',
-                  data: umidade,
-                  borderColor: 'rgb(75, 192, 192)',
-                  tension: 0.1
-                }]
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-            });
-          }
-
-          if (window.temperaturaChart) {
-            window.temperaturaChart.data.labels = labels;
-            window.temperaturaChart.data.datasets[0].data = temperatura;
-            window.temperaturaChart.update();
-          } else {
-            window.temperaturaChart = new Chart(document.getElementById('temperaturaChart').getContext('2d'), {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: [{
-                  label: 'Temperatura (°C)',
-                  data: temperatura,
-                  borderColor: 'rgb(255, 99, 132)',
-                  tension: 0.1
-                }]
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-            });
-          }
-
-          if (window.luzChart) {
-            window.luzChart.data.labels = labels;
-            window.luzChart.data.datasets[0].data = luz;
-            window.luzChart.update();
-          } else {
-            window.luzChart = new Chart(document.getElementById('luzChart').getContext('2d'), {
-              type: 'line',
-              data: {
-                labels: labels,
-                datasets: [{
-                  label: 'Luz (lux)',
-                  data: luz,
-                  borderColor: 'rgb(54, 162, 235)',
-                  tension: 0.1
-                }]
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true
-                  }
-                }
-              }
-            });
-          }
-        } else {
-          document.getElementById('info-assinante').innerText = 'Nenhum dado disponível.';
-          document.getElementById('umidadeChartDiv').style.display = 'none';
-          document.getElementById('temperaturaChartDiv').style.display = 'none';
-          document.getElementById('luzChartDiv').style.display = 'none';
-        }
-      });
-
-      // Form submission
-      document.getElementById('sensorForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const data = document.getElementById('data').value;
-        const umidade = parseFloat(document.getElementById('umidade').value);
-        const temperatura = parseFloat(document.getElementById('temperatura').value);
-        const luz = parseFloat(document.getElementById('luz').value);
-        firebase.database().ref(`users/${user.uid}/sensorData`).push({
-          data: data,
-          umidade: umidade,
-          temperatura: temperatura,
-          luz: luz
-        });
-        e.target.reset();
-      });
-    } else {
-      document.getElementById('info-assinante').innerText = 'Por favor, faça login.';
-    }
-
-    function logout() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = 'login.html';
-      });
-    }
-  </script>
+  <script src="painel-assinante-script.js"></script>
 </body>
 </html>
