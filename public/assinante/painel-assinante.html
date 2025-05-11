@@ -12,19 +12,28 @@
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6 text-green-800">Painel do Assinante</h1>
     <div class="flex flex-col md:flex-row gap-6">
-      <!-- Dados da horta -->
       <div class="md:w-1/2 bg-white p-6 rounded shadow">
         <h2 class="text-xl font-bold mb-4">Seus Dados da Horta</h2>
-        <p><strong>Nome:</strong> <span id="nome">Júlio</span></p>
-        <p><strong>Plano:</strong> <span id="plano">Colheita Viva</span></p>
-        <p><strong>Dia do plantio:</strong> <span id="plantio">01/05/2025</span></p>
-        <p><strong>Status da colheita:</strong> <span id="status">Em desenvolvimento</span></p>
-        <p><strong>Histórico:</strong> <span id="historico">Plantio iniciado com sucesso</span></p>
+        <p><strong>Nome:</strong> <span id="nome"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>Telefone:</strong> <span id="telefone"></span></p>
+        <p><strong>Plano:</strong> <span id="plano"></span></p>
+        <p><strong>Dia do Plantio:</strong> <span id="plantio"></span></p>
+        <p><strong>O que foi plantado:</strong> <span id="plantado"></span></p>
+        <p><strong>Status da Colheita:</strong> <span id="status"></span></p>
+        <p><strong>Histórico:</strong> <span id="historico"></span></p>
+
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">Fotos da Horta</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <img id="foto1" src="" class="rounded shadow" />
+            <img id="foto2" src="" class="rounded shadow" />
+          </div>
+        </div>
       </div>
 
-      <!-- Gráficos -->
       <div class="md:w-1/2 bg-white p-6 rounded shadow">
-        <h2 class="text-xl font-bold mb-4">Monitoramento</h2>
+        <h2 class="text-xl font-bold mb-4">Monitoramento em Tempo Real</h2>
         <canvas id="graficoTemp" height="150"></canvas>
         <canvas id="graficoUmidade" height="150" class="mt-6"></canvas>
         <canvas id="graficoLuz" height="150" class="mt-6"></canvas>
@@ -32,41 +41,72 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
   <script>
-    const dadosTemp = [28, 29, 30, 27, 26, 31];
-    const dadosUmidade = [40, 50, 45, 60, 55, 42];
-    const dadosLuz = [300, 450, 500, 600, 400, 550];
-    const labels = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+    const firebaseConfig = {
+      apiKey: "AIzaSyDCMze76XmCGqufSMGO7NOZS8ad4_HROzA",
+      authDomain: "codigodaterra-7c22e.firebaseapp.com",
+      databaseURL: "https://codigodaterra-7c22e-default-rtdb.firebaseio.com",
+      projectId: "codigodaterra-7c22e",
+      storageBucket: "codigodaterra-7c22e.firebasestorage.app",
+      messagingSenderId: "32808222509",
+      appId: "1:32808222509:web:f6a7e8ecd1c1ec2a20dda4",
+      measurementId: "G-XLHCVTSPJS"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const uid = user.uid;
+        firebase.database().ref("assinantes/" + uid).once("value").then(snapshot => {
+          const dados = snapshot.val();
+          if (dados) {
+            document.getElementById("nome").textContent = dados.nome || "";
+            document.getElementById("email").textContent = dados.email || "";
+            document.getElementById("telefone").textContent = dados.telefone || "";
+            document.getElementById("plano").textContent = dados.plano || "";
+            document.getElementById("plantio").textContent = dados.data_plantio || "";
+            document.getElementById("plantado").textContent = dados.plantado || "";
+            document.getElementById("status").textContent = dados.status_colheita || "";
+            document.getElementById("historico").textContent = dados.historico_entregas || "";
+            document.getElementById("foto1").src = dados.foto1 || "";
+            document.getElementById("foto2").src = dados.foto2 || "";
+
+            gerarGrafico("graficoTemp", "Temperatura (°C)", [dados.sensor_temperatura || 0], "#ef6c00");
+            gerarGrafico("graficoUmidade", "Umidade (%)", [dados.sensor_umidade || 0], "#0288d1");
+            gerarGrafico("graficoLuz", "Luminosidade (lux)", [dados.sensor_luminosidade || 0], "#43a047");
+          }
+        });
+      } else {
+        window.location.href = "index.html";
+      }
+    });
 
     function gerarGrafico(id, label, data, cor) {
       new Chart(document.getElementById(id), {
-        type: "line",
+        type: "bar",
         data: {
-          labels: labels,
+          labels: ["Atual"],
           datasets: [{
             label: label,
             data: data,
             backgroundColor: cor,
             borderColor: cor,
-            fill: false,
-            tension: 0.4
+            borderWidth: 1
           }]
         },
         options: {
-          responsive: true,
-          plugins: {
-            legend: { display: true }
-          },
           scales: {
-            y: { beginAtZero: false }
+            y: {
+              beginAtZero: true
+            }
           }
         }
       });
     }
-
-    gerarGrafico("graficoTemp", "Temperatura (°C)", dadosTemp, "#ef6c00");
-    gerarGrafico("graficoUmidade", "Umidade (%)", dadosUmidade, "#0288d1");
-    gerarGrafico("graficoLuz", "Luminosidade (lux)", dadosLuz, "#43a047");
   </script>
 </body>
 </html>
