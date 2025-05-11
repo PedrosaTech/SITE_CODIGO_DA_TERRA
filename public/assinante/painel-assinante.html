@@ -82,7 +82,7 @@
 
             gerarGrafico("graficoTemp", "Temperatura (°C)", [temp], "#ef6c00");
             gerarGrafico("graficoUmidade", "Umidade (%)", [umid], "#0288d1");
-            gerarGrafico("graficoLuz", "Luminosidade (lux)", [luz], "#43a047");
+            gerarGrafico("graficoLuz", "Fotoperíodo (lux)", [luz], "#43a047");
 
             mostrarAlertas(temp, umid, luz);
           }
@@ -116,14 +116,22 @@
     function mostrarAlertas(temp, umid, luz) {
       let alertas = [];
 
-      if (umid < 20 || umid > 60) {
+      if (umid >= 20 && umid <= 60) {
+        alertas.push("✅ Umidade dentro do padrão ideal.");
+      } else {
         alertas.push("🚨 Umidade fora da faixa ideal (20%-60%).");
       }
-      if (temp < 10 || temp > 35) {
+
+      if (temp >= 10 && temp <= 35) {
+        alertas.push("✅ Temperatura adequada para cultivo.");
+      } else {
         alertas.push("🚨 Temperatura fora da faixa recomendada para hortas.");
       }
-      if (luz < 5000 || luz > 20000) {
-        alertas.push("🚨 Níveis de luminosidade fora do ideal.");
+
+      if (luz >= 5000 && luz <= 20000) {
+        alertas.push("✅ Fotoperíodo ideal para o desenvolvimento das plantas.");
+      } else {
+        alertas.push("🚨 Fotoperíodo fora do ideal (ideal entre 5.000 e 20.000 lux).");
       }
 
       document.getElementById("alertas").innerHTML = alertas.join("<br>");
