@@ -1,23 +1,72 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel do Assinante</title>
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <div class="container">
-    <h1>Bem-vindo ao Código da Terra</h1>
-    <div id="info-assinante">Carregando dados...</div>
-    <button onclick="logout()" style="margin-top: 20px;">Sair</button>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6 text-green-800">Painel do Assinante</h1>
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Dados da horta -->
+      <div class="md:w-1/2 bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Seus Dados da Horta</h2>
+        <p><strong>Nome:</strong> <span id="nome">Júlio</span></p>
+        <p><strong>Plano:</strong> <span id="plano">Colheita Viva</span></p>
+        <p><strong>Dia do plantio:</strong> <span id="plantio">01/05/2025</span></p>
+        <p><strong>Status da colheita:</strong> <span id="status">Em desenvolvimento</span></p>
+        <p><strong>Histórico:</strong> <span id="historico">Plantio iniciado com sucesso</span></p>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="md:w-1/2 bg-white p-6 rounded shadow">
+        <h2 class="text-xl font-bold mb-4">Monitoramento</h2>
+        <canvas id="graficoTemp" height="150"></canvas>
+        <canvas id="graficoUmidade" height="150" class="mt-6"></canvas>
+        <canvas id="graficoLuz" height="150" class="mt-6"></canvas>
+      </div>
+    </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="painel-assinante-script.js"></script>
+  <script>
+    const dadosTemp = [28, 29, 30, 27, 26, 31];
+    const dadosUmidade = [40, 50, 45, 60, 55, 42];
+    const dadosLuz = [300, 450, 500, 600, 400, 550];
+    const labels = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
+    function gerarGrafico(id, label, data, cor) {
+      new Chart(document.getElementById(id), {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: data,
+            backgroundColor: cor,
+            borderColor: cor,
+            fill: false,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: true }
+          },
+          scales: {
+            y: { beginAtZero: false }
+          }
+        }
+      });
+    }
+
+    gerarGrafico("graficoTemp", "Temperatura (°C)", dadosTemp, "#ef6c00");
+    gerarGrafico("graficoUmidade", "Umidade (%)", dadosUmidade, "#0288d1");
+    gerarGrafico("graficoLuz", "Luminosidade (lux)", dadosLuz, "#43a047");
+  </script>
 </body>
 </html>
