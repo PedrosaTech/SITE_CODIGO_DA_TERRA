@@ -1,4 +1,3 @@
-// 🔌 Configuração e inicialização do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDCMze76XmCGqufSMGO7NOZS8ad4_HROzA",
   authDomain: "codigodaterra-7c22e.firebaseapp.com",
