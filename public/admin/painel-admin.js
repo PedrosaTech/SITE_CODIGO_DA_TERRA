@@ -21,7 +21,11 @@ window.buscarAssinante = function () {
         div.innerHTML = `
           <h3>${a.nome}</h3>
           <p><strong>Plano:</strong> ${a.plano}</p>
-          <p><strong>Status:</strong> ${a.status}</p>
+          <label>Status do Assinante:</label>
+          <select id="status-${uid}">
+          <option value="pendente" ${a.status === "pendente" ? "selected" : ""}>Pendente</option>
+          <option value="ativo" ${a.status === "ativo" ? "selected" : ""}>Ativo</option>
+          </select>   
           <button onclick="carregarAssinanteCompleto('${uid}')">Abrir Assinatura Completa</button>
           <hr>
         `;
