@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -9,22 +10,16 @@
 <body>
   <div class="container">
     <h1>Painel Administrativo</h1>
-
-    <label for="buscar-nome">Buscar assinante por nome:</label>
-    <input type="text" id="buscar-nome" placeholder="Digite o nome..." />
+    <input type="text" id="nome-assinante" placeholder="Digite o nome do assinante" />
     <button onclick="buscarAssinante()">Buscar</button>
-
-    <div id="lista-assinantes" class="mt-6">Carregando assinantes...</div>
+    <div id="lista-assinantes">Carregando assinantes...</div>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
-
-<!-- Firebase config primeiro -->
-<script src="firebase-config.js"></script>
-
-<!-- Agora o painel-admin.js -->
-<script src="painel-admin.js"></script>
-
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="painel-admin.js"></script>
+</body>
+</html>
