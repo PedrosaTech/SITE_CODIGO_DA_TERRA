@@ -9,9 +9,6 @@ const loginForm = document.getElementById("login-form");
 const painel = document.getElementById("painel");
 const logoutBtn = document.getElementById("logout");
 
-const hospedesList = document.getElementById("hospedes-list");
-const facilitadoresList = document.getElementById("facilitadores-list");
-
 function renderLista(refPath, container) {
   container.innerHTML = "";
   db.ref(refPath).once("value").then(snapshot => {
@@ -49,9 +46,10 @@ function renderLista(refPath, container) {
   });
 }
 
-function adicionarNovoItem(refPath, inputNomeId, inputValorId, container) {
+function adicionarNovoItem(refPath, inputNomeId, inputValorId, containerId) {
   const nome = document.getElementById(inputNomeId).value;
   const valor = parseFloat(document.getElementById(inputValorId).value);
+  const container = document.getElementById(containerId);
   if (nome && !isNaN(valor)) {
     db.ref(`${refPath}/${nome}`).set(valor).then(() => {
       renderLista(refPath, container);
@@ -71,8 +69,8 @@ loginForm.addEventListener("submit", (e) => {
       if (userCred.user.email === userEmailAutorizado) {
         loginForm.style.display = "none";
         painel.style.display = "block";
-        renderLista("orcamento/hospedes", hospedesList);
-        renderLista("orcamento/facilitadores", facilitadoresList);
+        renderLista("orcamento/hospedes", document.getElementById("hospedes-list"));
+        renderLista("orcamento/facilitadores", document.getElementById("facilitadores-list"));
       } else {
         alert("Usuário não autorizado.");
         auth.signOut();
@@ -89,25 +87,26 @@ logoutBtn.addEventListener("click", () => {
 });
 
 // Exportar JSON
-window.exportarOrcamento = async function () {
-  const hospedesSnap = await db.ref("orcamento/hospedes").once("value");
-  const facilitadoresSnap = await db.ref("orcamento/facilitadores").once("value");
+function exportarOrcamento() {
+  Promise.all([
+    db.ref("orcamento/hospedes").once("value"),
+    db.ref("orcamento/facilitadores").once("value")
+  ]).then(([hospedesSnap, facilitadoresSnap]) => {
+    const dados = {
+      hospedes: hospedesSnap.val() || {},
+      facilitadores: facilitadoresSnap.val() || {}
+    };
+    const blob = new Blob([JSON.stringify(dados, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
 
-  const dados = {
-    hospedes: hospedesSnap.val() || {},
-    facilitadores: facilitadoresSnap.val() || {}
-  };
-
-  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "orcamento-codigo-da-terra.json";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "orcamento-codigo-da-terra.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
 }
+
 window.adicionarNovoItem = adicionarNovoItem;
 window.exportarOrcamento = exportarOrcamento;
-
