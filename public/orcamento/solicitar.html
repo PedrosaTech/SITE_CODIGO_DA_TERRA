@@ -15,6 +15,7 @@
     button { background: #4a754a; color: white; font-weight: bold; }
     button:hover { background: #365e36; }
     .hidden { display: none; }
+    .checkbox { margin-top: 10px; display: flex; align-items: center; gap: 10px; }
   </style>
 </head>
 <body>
@@ -36,6 +37,10 @@
       <label>Terapias desejadas:</label>
       <textarea id="h_terapias" placeholder="Ex: Reiki, Massagem..."></textarea>
       <textarea id="h_obs" placeholder="Observações adicionais"></textarea>
+      <div class="checkbox">
+        <input type="checkbox" id="h_contato" />
+        <label for="h_contato">Desejo mais informações por WhatsApp</label>
+      </div>
       <button type="submit">Enviar Solicitação</button>
     </form>
 
@@ -49,6 +54,10 @@
       <label>Espaços desejados:</label>
       <textarea id="f_espacos" placeholder="Ex: Salão multiuso, Jardins..."></textarea>
       <textarea id="f_obs" placeholder="Observações adicionais"></textarea>
+      <div class="checkbox">
+        <input type="checkbox" id="f_contato" />
+        <label for="f_contato">Desejo mais informações por WhatsApp</label>
+      </div>
       <button type="submit">Enviar Solicitação</button>
     </form>
 
@@ -66,16 +75,20 @@
 
     function enviarFormulario(e, tipo) {
       e.preventDefault();
-      const db = firebase.database().ref("solicitacoes_orcamento/" + tipo);
+      const db = firebase.database().ref("fila_envio_guardiao");
+
       const dados = tipo === 'hospedes' ? {
+        tipo: 'hospede',
         nome: document.getElementById("h_nome").value,
         email: document.getElementById("h_email").value,
         whatsapp: document.getElementById("h_whatsapp").value,
-        tipo: document.getElementById("h_tipo").value,
+        hospedagem: document.getElementById("h_tipo").value,
         terapias: document.getElementById("h_terapias").value,
         obs: document.getElementById("h_obs").value,
+        deseja_contato: document.getElementById("h_contato").checked,
         timestamp: new Date().toISOString()
       } : {
+        tipo: 'facilitador',
         nome: document.getElementById("f_nome").value,
         email: document.getElementById("f_email").value,
         whatsapp: document.getElementById("f_whatsapp").value,
@@ -83,10 +96,12 @@
         participantes: document.getElementById("f_qtd").value,
         espacos: document.getElementById("f_espacos").value,
         obs: document.getElementById("f_obs").value,
+        deseja_contato: document.getElementById("f_contato").checked,
         timestamp: new Date().toISOString()
       };
+
       db.push(dados).then(() => {
-        document.getElementById("mensagem").innerText = "✅ Solicitação enviada com sucesso!";
+        document.getElementById("mensagem").innerText = "✅ Solicitação enviada! Você receberá um orçamento prévio em PDF no seu WhatsApp.";
         e.target.reset();
       });
     }
