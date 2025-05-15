@@ -108,3 +108,6 @@ window.exportarOrcamento = async function () {
   a.click();
   document.body.removeChild(a);
 }
+window.adicionarNovoItem = adicionarNovoItem;
+window.exportarOrcamento = exportarOrcamento;
+
